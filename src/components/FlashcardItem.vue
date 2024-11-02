@@ -29,7 +29,8 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props) {
+  emits: ['flip'],
+  setup(props, { emit }) {
     const isFlipped = ref(false);
 
     watch(() => props.card, () => {
@@ -38,6 +39,7 @@ export default defineComponent({
 
     const toggleCard = () => {
       isFlipped.value = !isFlipped.value;
+      emit('flip', isFlipped.value);
     };
 
     return {

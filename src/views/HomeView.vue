@@ -3,6 +3,8 @@
     <div class="max-w-2xl mx-auto">
       <header class="text-center mb-8">
         <h1 class="text-5xl font-bold mb-2 text-ctp-pink from-ctp-pink to-ctp-mauve">Tanulókártyák</h1>
+        <p class="text-ctp-subtext0">Kártya {{ currentIndex + 1 }} / {{ currentFlashcards.length }}</p>
+
         <div class="flex justify-center gap-4 mb-4">
           <button
             v-for="set in flashcardSets"
@@ -17,7 +19,6 @@
             </div>
           </button>
         </div>
-        <p class="text-ctp-subtext0">Kártya {{ currentIndex + 1 }} / {{ currentFlashcards.length }}</p>
       </header>
 
       <FlashcardItem
@@ -25,6 +26,7 @@
         :key="currentCard.id"
         :card="currentCard"
         class="mb-8"
+        @flip="handleFlip"
       />
 
       <div class="flex justify-center gap-4">
@@ -34,7 +36,7 @@
           :disabled="currentIndex === 0"
           :class="{ 'opacity-50 cursor-not-allowed': currentIndex === 0 }"
         >
-          Previous
+          Előző
         </button>
         <button
           @click="nextCard"
@@ -42,7 +44,7 @@
           :disabled="currentIndex === currentFlashcards.length - 1"
           :class="{ 'opacity-50 cursor-not-allowed': currentIndex === currentFlashcards.length - 1 }"
         >
-          Next
+          Következő
         </button>
       </div>
 
@@ -59,12 +61,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import FlashcardItem from '../components/FlashcardItem.vue';
 import flashcardsData1 from '../data/flashcards.json';
 import flashcardsData2 from '../data/flashcards2.json';
 import flashcardsData3 from '../data/flashcards3.json';
-
 
 const flashcardSets = [flashcardsData1, flashcardsData2, flashcardsData3];
 const currentSet = ref(flashcardsData1);
@@ -89,4 +90,38 @@ const previousCard = () => {
     currentIndex.value--;
   }
 };
+
+const handleKeyPress = (event: KeyboardEvent) => {
+  switch (event.key) {
+    case ' ':
+    case 'Spacebar':
+      event.preventDefault();
+      const cardElement = document.querySelector('.card2');
+      if (cardElement) {
+        cardElement.click();
+      }
+      break;
+    case 'ArrowLeft':
+      event.preventDefault();
+      previousCard();
+      break;
+    case 'ArrowRight':
+      event.preventDefault();
+      nextCard();
+      break;
+  }
+};
+
+const handleFlip = (isFlipped: boolean) => {
+  // This function can be used to handle any additional logic when a card is flipped
+  // For now it's just a placeholder for future functionality
+};
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeyPress);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeyPress);
+});
 </script>

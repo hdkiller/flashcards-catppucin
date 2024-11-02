@@ -1,38 +1,49 @@
 <template>
   <div
-    class="card min-h-[200px] max-w-md mx-auto"
-    :class="{ 'bg-blue-50': isFlipped }"
+    class="card2  min-h-[300px]  mx-auto rounded-lg shadow-lg transition-colors duration-300 outline outline-ctp-pink"
+    :class="{ 'bg-ctp-crust': !isFlipped, 'bg-ctp-mauve/50 text-ctp-text ': isFlipped }"
     @click="toggleCard"
   >
-    <div class="h-full flex items-center justify-center text-center">
-      <p class="text-lg">
+    <div class="h-full flex items-center justify-center text-center p-6 ">
+      <p class="text-4xl"
+        :class="{ 'text-ctp-subtext0': !isFlipped, 'text-ctp-text': isFlipped }"
+      >
         {{ isFlipped ? card.answer : card.question }}
       </p>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref, watch } from 'vue';
+<script lang="ts">
+import { defineComponent, ref, watch } from 'vue';
 
-interface FlashcardType {
-  id: number;
-  question: string;
-  answer: string;
-}
+export default defineComponent({
+  name: 'FlashcardItem',
+  props: {
+    card: {
+      type: Object as () => {
+        id: number;
+        question: string;
+        answer: string;
+      },
+      required: true
+    }
+  },
+  setup(props) {
+    const isFlipped = ref(false);
 
-const props = defineProps<{
-  card: FlashcardType;
-}>();
+    watch(() => props.card, () => {
+      isFlipped.value = false;
+    }, { deep: true });
 
-const isFlipped = ref(false);
+    const toggleCard = () => {
+      isFlipped.value = !isFlipped.value;
+    };
 
-// Watch for changes to the card prop and reset isFlipped state
-watch(() => props.card, () => {
-  isFlipped.value = false;
-}, { deep: true });
-
-const toggleCard = () => {
-  isFlipped.value = !isFlipped.value;
-};
+    return {
+      isFlipped,
+      toggleCard
+    };
+  }
+});
 </script>

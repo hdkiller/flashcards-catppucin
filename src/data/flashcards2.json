@@ -1,0 +1,84 @@
+{
+  "meta": {
+    "title": "Mátyás király",
+    "description": "Mátyás király életrajza és történelmi eseményei",
+    "emoji": "👑"
+  },
+  "flashcards": [
+    {
+      "id": 1,
+      "question": "Ki volt Mátyás király?",
+      "answer": "Mátyás király Magyarország egyik leghíresebb királya volt, aki 1458-tól 1490-ig uralkodott."
+    },
+    {
+      "id": 2,
+      "question": "Miért hívták Mátyás királyt igazságosnak?",
+      "answer": "Azért hívták igazságosnak, mert sokat tett azért, hogy igazságot szolgáltasson a szegényeknek és a gazdagoknak egyaránt."
+    },
+    {
+      "id": 3, 
+      "question": "Milyen híres épületet építtetett Mátyás király?",
+      "answer": "Mátyás király építtette a budai várat, ami ma is nagyon híres épület Budapesten."
+    },
+    {
+      "id": 4,
+      "question": "Milyen állat volt Mátyás király címerében?",
+      "answer": "Mátyás király címerében egy holló volt, ezért is hívják néha Hollós Mátyásnak."
+    },
+    {
+      "id": 5,
+      "question": "Miért volt különleges Mátyás király udvara?",
+      "answer": "Mátyás király udvara nagyon különleges volt, mert sok tudós és művész élt ott, és sok könyvet gyűjtöttek össze."
+    },
+    {
+      "id": 6,
+      "question": "Milyen nyelven beszélt Mátyás király?",
+      "answer": "Mátyás király több nyelven is beszélt, például magyarul, latinul és németül."
+    },
+    {
+      "id": 7,
+      "question": "Milyen híres könyvtárat alapított Mátyás király?",
+      "answer": "Mátyás király alapította a híres Corvina könyvtárat, ahol sok értékes könyvet őriztek."
+    },
+    {
+      "id": 8,
+      "question": "Milyen híres hadserege volt Mátyás királynak?",
+      "answer": "Mátyás királynak volt egy híres hadserege, amit Fekete Seregnek hívtak."
+    },
+    {
+      "id": 9,
+      "question": "Hol született Mátyás király?",
+      "answer": "Mátyás király Kolozsváron született, ami ma Romániában található."
+    },
+    {
+      "id": 10,
+      "question": "Milyen híres törvényt hozott Mátyás király?",
+      "answer": "Mátyás király híres törvénye volt a fekete sereg fenntartásáról, ami biztosította a hadsereg fizetését."
+    },
+    {
+      "id": 11,
+      "question": "Milyen volt Mátyás király koronázása?",
+      "answer": "Mátyás királyt 1464-ben koronázták meg a Szent Koronával, ami nagyon fontos esemény volt."
+    },
+    {
+      "id": 12,
+      "question": "Milyen volt Mátyás király kapcsolata a szomszédos országokkal?",
+      "answer": "Mátyás király sokszor harcolt a szomszédos országokkal, de békét is kötött velük, ha szükséges volt."
+    },
+    {
+      "id": 13,
+      "question": "Milyen volt Mátyás király családja?",
+      "answer": "Mátyás király apja Hunyadi János volt, aki szintén híres hadvezér volt, és felesége Aragóniai Beatrix volt."
+    },
+    {
+      "id": 14,
+      "question": "Milyen volt Mátyás király uralkodása alatt az ország?",
+      "answer": "Mátyás király uralkodása alatt Magyarország erős és gazdag ország volt, sok építkezés és fejlődés történt."
+    },
+    {
+      "id": 15,
+      "question": "Mikor halt meg Mátyás király?",
+      "answer": "Mátyás király 1490-ben halt meg, és halála után az ország nehéz időszakot élt át."
+    }
+  ]
+}

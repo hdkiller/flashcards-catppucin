@@ -1,4 +1,9 @@
 {
+  "meta": {
+    "title": "Aranybulla",
+    "description": "Aranybulla történelmi eseményei",
+    "emoji": "💰"
+  },
   "flashcards": [
     {
       "id": 1,

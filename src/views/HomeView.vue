@@ -95,8 +95,9 @@ const handleKeyPress = (event: KeyboardEvent) => {
   switch (event.key) {
     case ' ':
     case 'Spacebar':
+    case 'Enter':
       event.preventDefault();
-      const cardElement = document.querySelector('.card2');
+      const cardElement = document.querySelector('.card-content');
       if (cardElement) {
         cardElement.click();
       }

@@ -1,0 +1,10 @@
+{
+  "title": "Magyar Nyelvtan Alapok",
+  "description": "Magyar nyelvtani alapismeretek 10 éveseknek",
+  "emoji": "📚",
+  "decks": [
+    "./szofajok.json",
+    "./mondatfajtak.json",
+    "./helyesiras.json"
+  ]
+}

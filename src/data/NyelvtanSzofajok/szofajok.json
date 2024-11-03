@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "title": "Szófajok",
+    "description": "A magyar nyelv szófajai és használatuk",
+    "emoji": "📝"
+  },
+  "flashcards": [
+    {
+      "id": 1,
+      "question": "Mi a főnév? Mondj rá három példát!",
+      "answer": "A főnév élőlényeket, tárgyakat, gondolati dolgokat megnevező szófaj. Például: kutya, asztal, szeretet"
+    },
+    {
+      "id": 2,
+      "question": "Mi a különbség a köznév és a tulajdonnév között?",
+      "answer": "A köznév több hasonló dologra vonatkozik (pl. város, kutya), a tulajdonnév pedig egy bizonyos dolgot jelöl (pl. Budapest, Bodri)"
+    },
+    {
+      "id": 3,
+      "question": "Mi az ige? Írj három példát!",
+      "answer": "Az ige cselekvést, történést vagy létezést fejez ki. Például: fut, alszik, van"
+    },
+    {
+      "id": 4,
+      "question": "Mi a melléknév? Mondj három példát!",
+      "answer": "A melléknév tulajdonságot, minőséget fejez ki. Például: piros, okos, szép"
+    },
+    {
+      "id": 5,
+      "question": "Mik a névmások? Írj három különböző fajtát!",
+      "answer": "A névmások főnevek, melléknevek helyett állnak. Például: én (személyes), ez (mutató), ki? (kérdő)"
+    },
+    {
+      "id": 6,
+      "question": "Mi a számnév? Írj példát mindhárom fajtára!",
+      "answer": "A számnév mennyiséget fejez ki. Határozott: öt, hatodik; határozatlan: sok, kevés; törtszámnév: harmad"
+    },
+    {
+      "id": 7,
+      "question": "Mik a névelők? Sorold fel őket!",
+      "answer": "A névelők: határozott névelő (a, az), határozatlan névelő (egy)"
+    },
+    {
+      "id": 8,
+      "question": "Mi a különbség a határozott és határozatlan névelő között?",
+      "answer": "A határozott névelő (a, az) ismert dolgokra utal, a határozatlan névelő (egy) ismeretlen vagy új dolgokra"
+    },
+    {
+      "id": 9,
+      "question": "Mi a határozószó? Mondj három példát!",
+      "answer": "A határozószó a cselekvés körülményeit fejezi ki. Például: gyorsan, otthon, holnap"
+    },
+    {
+      "id": 10,
+      "question": "Melyik szófaj fejezi ki a cselekvés módját?",
+      "answer": "A módhatározószó fejezi ki a cselekvés módját, például: szépen, lassan, gyorsan"
+    }
+  ]
+} 

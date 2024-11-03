@@ -1,0 +1,10 @@
+{
+  "title": "Osztrák-Magyar Monarchia",
+  "description": "Az Osztrák-Magyar Monarchia története",
+  "emoji": "🇭🇺",
+  "decks": [ 
+    "./flashcards.json",
+    "./flashcards2.json",
+    "./flashcards3.json"
+  ]
+}

@@ -1,26 +1,61 @@
 <template>
-  <main class="min-h-screen py-8 px-4 ctp-mocha  bg-gradient-to-b from-ctp-base to-ctp-crust">
+  <main class="min-h-screen py-8 px-4 ctp-mocha bg-gradient-to-b from-ctp-base to-ctp-crust">
     <div class="max-w-2xl mx-auto">
       <header class="text-center mb-8">
         <h1 class="text-5xl font-bold mb-2 text-ctp-pink from-ctp-pink to-ctp-mauve">Tanulókártyák</h1>
-        <p class="text-ctp-subtext0">Kártya {{ currentIndex + 1 }} / {{ currentFlashcards.length }}</p>
 
-        <div class="flex justify-center gap-4 mb-4">
-          <button
-            v-for="set in flashcardSets"
-            :key="set.meta.title"
-            @click="selectFlashcardSet(set)"
-            class="text-3xl hover:scale-110 transition-transform duration-200 relative group"
-            :class="{ 'opacity-50': currentSet !== set }"
-          >
-            {{ set.meta.emoji }}
-            <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1 bg-ctp-surface0 text-ctp-text text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
-              {{ set.meta.description }}
-            </div>
-          </button>
+        <!-- Class Selection -->
+        <div v-if="!currentClass" class="mb-8">
+          <h2 class="text-2xl mb-4 text-ctp-subtext0">Válassz tantárgyat</h2>
+          <div class="flex justify-center gap-4 flex-wrap">
+            <button
+              v-for="classData in classes"
+              :key="classData.classData.title"
+              @click="selectClass(classData)"
+              class="px-6 py-4 rounded-lg bg-ctp-surface0 hover:bg-ctp-surface1 transition-colors duration-200 group"
+            >
+              <span class="text-3xl block mb-2">{{ classData.classData.emoji }}</span>
+              <span class="block text-ctp-text font-medium">{{ classData.classData.title }}</span>
+              <span class="text-sm text-ctp-subtext0">{{ classData.classData.description }}</span>
+            </button>
+          </div>
         </div>
+
+        <!-- Deck Selection and Navigation -->
+        <template v-else>
+          <div class="flex items-center justify-center gap-2 mb-4">
+            <button
+              @click="currentClass = null"
+              class="text-ctp-subtext0 hover:text-ctp-text"
+            >
+              ← Vissza
+            </button>
+            <h2 class="text-2xl text-ctp-subtext0">
+              {{ currentClass.classData.title }}
+            </h2>
+          </div>
+
+          <p class="text-ctp-subtext0" v-if="currentDeck">
+            Kártya {{ currentIndex + 1 }} / {{ currentFlashcards.length }}
+          </p>
+
+          <div v-if="!currentDeck" class="flex justify-center gap-4 mb-4">
+            <button
+              v-for="deck in currentClass.decks"
+              :key="deck.meta.title"
+              @click="selectDeck(deck)"
+              class="text-3xl hover:scale-110 transition-transform duration-200 relative group"
+            >
+              {{ deck.meta.emoji }}
+              <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1 bg-ctp-surface0 text-ctp-text text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
+                {{ deck.meta.description }}
+              </div>
+            </button>
+          </div>
+        </template>
       </header>
 
+      <!-- Flashcard Display -->
       <FlashcardItem
         v-if="currentCard"
         :key="currentCard.id"
@@ -29,10 +64,11 @@
         @flip="handleFlip"
       />
 
-      <div class="flex justify-center gap-4">
+      <!-- Navigation Buttons -->
+      <div v-if="currentDeck" class="flex justify-center gap-4">
         <button
           @click="previousCard"
-          class="px-4 py-2 rounded-lg bg-ctp-lavender hover:bg-ctp-mauve active:bg-ctp-mauve/75  transition-colors duration-200"
+          class="px-4 py-2 rounded-lg bg-ctp-lavender hover:bg-ctp-mauve active:bg-ctp-mauve/75 transition-colors duration-200"
           :disabled="currentIndex === 0"
           :class="{ 'opacity-50 cursor-not-allowed': currentIndex === 0 }"
         >
@@ -40,7 +76,7 @@
         </button>
         <button
           @click="nextCard"
-          class="px-4 py-2 rounded-lg bg-ctp-lavender hover:bg-ctp-mauve active:bg-ctp-mauve/75  transition-colors duration-200"
+          class="px-4 py-2 rounded-lg bg-ctp-lavender hover:bg-ctp-mauve active:bg-ctp-mauve/75 transition-colors duration-200"
           :disabled="currentIndex === currentFlashcards.length - 1"
           :class="{ 'opacity-50 cursor-not-allowed': currentIndex === currentFlashcards.length - 1 }"
         >
@@ -48,12 +84,13 @@
         </button>
       </div>
 
-      <div class="mt-8 flex justify-center gap-2">
+      <!-- Progress Dots -->
+      <div v-if="currentDeck" class="mt-8 flex justify-center gap-2">
         <div
           v-for="(_, index) in currentFlashcards"
           :key="index"
           class="w-3 h-3 rounded-full"
-          :class="index === currentIndex ? 'bg-blue' : 'bg-surface0'"
+          :class="index === currentIndex ? 'bg-ctp-blue' : 'bg-ctp-surface0'"
         ></div>
       </div>
     </div>
@@ -63,19 +100,42 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import FlashcardItem from '../components/FlashcardItem.vue';
-import flashcardsData1 from '../data/flashcards.json';
-import flashcardsData2 from '../data/flashcards2.json';
-import flashcardsData3 from '../data/flashcards3.json';
+import { loadClass, listClasses, type FlashcardDeck, type ClassData } from '../utils/classLoader';
 
-const flashcardSets = [flashcardsData1, flashcardsData2, flashcardsData3];
-const currentSet = ref(flashcardsData1);
+interface LoadedClass {
+  classData: ClassData;
+  decks: FlashcardDeck[];
+}
+
+const classes = ref<LoadedClass[]>([]);
+const currentClass = ref<LoadedClass | null>(null);
+const currentDeck = ref<FlashcardDeck | null>(null);
 const currentIndex = ref(0);
 
-const currentFlashcards = computed(() => currentSet.value.flashcards);
+const currentFlashcards = computed(() => currentDeck.value?.flashcards || []);
 const currentCard = computed(() => currentFlashcards.value[currentIndex.value]);
 
-const selectFlashcardSet = (set: typeof flashcardsData1) => {
-  currentSet.value = set;
+// Load available classes on mount
+onMounted(async () => {
+  try {
+    const availableClasses = await listClasses();
+    const loadedClasses = await Promise.all(
+      availableClasses.map(classDir => loadClass(classDir))
+    );
+    classes.value = loadedClasses;
+  } catch (error) {
+    console.error('Error loading classes:', error);
+  }
+});
+
+const selectClass = (classData: LoadedClass) => {
+  currentClass.value = classData;
+  currentDeck.value = null;
+  currentIndex.value = 0;
+};
+
+const selectDeck = (deck: FlashcardDeck) => {
+  currentDeck.value = deck;
   currentIndex.value = 0;
 };
 
@@ -92,12 +152,14 @@ const previousCard = () => {
 };
 
 const handleKeyPress = (event: KeyboardEvent) => {
+  if (!currentDeck.value) return;
+
   switch (event.key) {
     case ' ':
     case 'Spacebar':
     case 'Enter':
       event.preventDefault();
-      const cardElement = document.querySelector('.card-content');
+      const cardElement = document.querySelector('.card-content') as HTMLElement;
       if (cardElement) {
         cardElement.click();
       }
@@ -113,7 +175,7 @@ const handleKeyPress = (event: KeyboardEvent) => {
   }
 };
 
-const handleFlip = (isFlipped: boolean) => {
+const handleFlip = () => {
   // This function can be used to handle any additional logic when a card is flipped
   // For now it's just a placeholder for future functionality
 };

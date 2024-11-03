@@ -55,14 +55,16 @@
         </template>
       </header>
 
-      <!-- Flashcard Display -->
-      <FlashcardItem
-        v-if="currentCard"
-        :key="currentCard.id"
-        :card="currentCard"
-        class="mb-8"
-        @flip="handleFlip"
-      />
+      <!-- Flashcard Display with Transition -->
+      <transition :name="transitionName" mode="out-in">
+        <FlashcardItem
+          v-if="currentCard"
+          :key="currentCard.id"
+          :card="currentCard"
+          class="mb-8"
+          @flip="handleFlip"
+        />
+      </transition>
 
       <!-- Navigation Buttons -->
       <div v-if="currentDeck" class="flex justify-center gap-4">
@@ -111,9 +113,11 @@ const classes = ref<LoadedClass[]>([]);
 const currentClass = ref<LoadedClass | null>(null);
 const currentDeck = ref<FlashcardDeck | null>(null);
 const currentIndex = ref(0);
+const isNavigatingForward = ref(true);
 
 const currentFlashcards = computed(() => currentDeck.value?.flashcards || []);
 const currentCard = computed(() => currentFlashcards.value[currentIndex.value]);
+const transitionName = computed(() => isNavigatingForward.value ? 'slide-forward' : 'slide-backward');
 
 // Load available classes on mount
 onMounted(async () => {
@@ -141,12 +145,14 @@ const selectDeck = (deck: FlashcardDeck) => {
 
 const nextCard = () => {
   if (currentIndex.value < currentFlashcards.value.length - 1) {
+    isNavigatingForward.value = true;
     currentIndex.value++;
   }
 };
 
 const previousCard = () => {
   if (currentIndex.value > 0) {
+    isNavigatingForward.value = false;
     currentIndex.value--;
   }
 };
@@ -188,3 +194,43 @@ onUnmounted(() => {
   window.removeEventListener('keydown', handleKeyPress);
 });
 </script>
+
+<style scoped>
+/* Forward transition */
+.slide-forward-enter-active,
+.slide-forward-leave-active,
+.slide-backward-enter-active,
+.slide-backward-leave-active {
+  transition: all 0.5s ease;
+}
+
+.slide-forward-enter-from {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.slide-forward-leave-to {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+/* Backward transition */
+.slide-backward-enter-from {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.slide-backward-leave-to {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+/* Common styles for both directions */
+.slide-forward-enter-to,
+.slide-forward-leave-from,
+.slide-backward-enter-to,
+.slide-backward-leave-from {
+  opacity: 1;
+  transform: translateX(0);
+}
+</style>

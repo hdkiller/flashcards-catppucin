@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "title": "Mondatfajták",
+    "description": "A magyar nyelv mondatfajtái és használatuk",
+    "emoji": "💭"
+  },
+  "flashcards": [
+    {
+      "id": 1,
+      "question": "Milyen mondatfajtákat ismersz? Sorold fel őket!",
+      "answer": "Kijelentő mondat, kérdő mondat, felkiáltó mondat, felszólító mondat, óhajtó mondat"
+    },
+    {
+      "id": 2,
+      "question": "Mi a kijelentő mondat? Írj egy példát!",
+      "answer": "A kijelentő mondat egyszerűen közöl valamit. Például: Süt a nap."
+    },
+    {
+      "id": 3,
+      "question": "Hogyan ismered fel a kérdő mondatot? Írj egy példát!",
+      "answer": "A kérdő mondat végén kérdőjel van, és információt kér. Például: Hány óra van?"
+    },
+    {
+      "id": 4,
+      "question": "Mi a felszólító mondat? Írj két példát!",
+      "answer": "A felszólító mondat parancsot, kérést fejez ki. Például: Gyere ide! Moss kezet!"
+    },
+    {
+      "id": 5,
+      "question": "Mi az óhajtó mondat? Írj egy példát!",
+      "answer": "Az óhajtó mondat kívánságot fejez ki. Például: Bárcsak esne az eső!"
+    },
+    {
+      "id": 6,
+      "question": "Milyen írásjel kerül a felkiáltó mondat végére? Írj példát!",
+      "answer": "A felkiáltó mondat végére felkiáltójel (!) kerül. Például: De szép nap van ma!"
+    },
+    {
+      "id": 7,
+      "question": "Mi az állítmány? Keresd meg a példamondatban: A kutya ugat.",
+      "answer": "Az állítmány a mondat központi része, azt mondja meg, mit állítunk. A példában: ugat"
+    },
+    {
+      "id": 8,
+      "question": "Mi az alany? Keresd meg a példamondatban: Peti labdázik.",
+      "answer": "Az alany megmondja, ki vagy mi végzi a cselekvést. A példában: Peti"
+    },
+    {
+      "id": 9,
+      "question": "Hogyan kérdezünk rá a tárgyra a mondatban?",
+      "answer": "A tárgyra a Kit? Mit? kérdőszavakkal kérdezünk rá"
+    },
+    {
+      "id": 10,
+      "question": "Mi a különbség az egyszerű és az összetett mondat között?",
+      "answer": "Az egyszerű mondatban egy állítmány van, az összetett mondatban több állítmány található"
+    }
+  ]
+} 

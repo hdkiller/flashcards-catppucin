@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "title": "Helyesírási Alapok",
+    "description": "Magyar helyesírási szabályok és gyakorlatok",
+    "emoji": "✍️"
+  },
+  "flashcards": [
+    {
+      "id": 1,
+      "question": "Mikor írunk j-t és mikor ly-t? Írj két-két példát!",
+      "answer": "J-vel írjuk: játék, hajó. Ly-nal írjuk: folyó, gólya. Ezeket meg kell tanulni, nincs rá szabály."
+    },
+    {
+      "id": 2,
+      "question": "Mikor használunk hosszú í-t? Írj két példát!",
+      "answer": "Hosszú í-t használunk például: víz, híd. Ezeket meg kell jegyezni."
+    },
+    {
+      "id": 3,
+      "question": "Hogyan választjuk el a szavakat? Válaszd el: templom",
+      "answer": "A szavakat szótagolás szerint választjuk el. Templom = temp-lom"
+    },
+    {
+      "id": 4,
+      "question": "Mikor írunk nagy kezdőbetűt? Mondj három példát!",
+      "answer": "Nagy kezdőbetűvel írjuk a mondat első betűjét, a tulajdonneveket és a megszólításokat. Például: Péter, Budapest, Kedves Tanár Néni!"
+    },
+    {
+      "id": 5,
+      "question": "Mi a különbség a -ba/-be és -ban/-ben között?",
+      "answer": "A -ba/-be a hová? kérdésre felel (mozgás). A -ban/-ben a hol? kérdésre felel (helyben maradás)"
+    },
+    {
+      "id": 6,
+      "question": "Mikor írunk kettőzött mássalhangzót? Írj két példát!",
+      "answer": "Kettőzött mássalhangzót írunk például: jobban, mellett. A kiejtés segít eldönteni."
+    },
+    {
+      "id": 7,
+      "question": "Hogyan írjuk helyesen: utána vagy uttána?",
+      "answer": "A helyes írásmód: utána (egy t-vel)"
+    },
+    {
+      "id": 8,
+      "question": "Mikor kell vesszőt tenni a mondatban?",
+      "answer": "Vesszőt teszünk a felsorolás elemei közé, és a összetett mondatok tagmondatai közé"
+    },
+    {
+      "id": 9,
+      "question": "Mit jelent az, hogy egybe- vagy különírás?",
+      "answer": "Az egybeírás azt jelenti, hogy a szavakat összekapcsoljuk (kistányér), a különírás pedig azt, hogy külön írjuk őket (kis tányér)"
+    },
+    {
+      "id": 10,
+      "question": "Mikor használunk pontot a mondatban?",
+      "answer": "Pontot használunk a kijelentő mondatok végén és a rövidítések után (pl., stb.)"
+    }
+  ]
+} 

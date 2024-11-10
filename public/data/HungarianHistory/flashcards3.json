@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "title": "Aragóniai Beatrix",
+    "description": "Aragóniai Beatrix élete és tettei",
+    "emoji": "👸"
+  },
+  "flashcards": [
+    {
+      "id": 1,
+      "question": "Ki volt Aragóniai Beatrix?",
+      "answer": "Aragóniai Beatrix egy híres királyné volt, aki Mátyás király felesége lett."
+    },
+    {
+      "id": 2,
+      "question": "Mikor született Aragóniai Beatrix?",
+      "answer": "Aragóniai Beatrix 1457-ben született."
+    },
+    {
+      "id": 3, 
+      "question": "Honnan származott Aragóniai Beatrix?",
+      "answer": "Aragóniai Beatrix Nápolyból, Olaszországból származott."
+    },
+    {
+      "id": 4,
+      "question": "Miért volt különleges Beatrix és Mátyás király házassága?",
+      "answer": "Azért volt különleges, mert Beatrix nagyon művelt volt, és sokat segített Mátyás királynak az ország irányításában."
+    },
+    {
+      "id": 5,
+      "question": "Milyen nyelven beszélt Aragóniai Beatrix?",
+      "answer": "Aragóniai Beatrix több nyelven is beszélt, például olaszul, latinul és magyarul."
+    },
+    {
+      "id": 6,
+      "question": "Milyen híres épületet építtetett Beatrix?",
+      "answer": "Beatrix segített a budai vár építésében, ami ma is híres épület Budapesten."
+    },
+    {
+      "id": 7,
+      "question": "Milyen volt Beatrix kapcsolata a művészetekkel?",
+      "answer": "Beatrix nagyon szerette a művészeteket, és sok művészt hívott Magyarországra."
+    },
+    {
+      "id": 8,
+      "question": "Milyen híres könyvtárat támogatta Beatrix?",
+      "answer": "Beatrix támogatta a híres Corvina könyvtárat, ahol sok értékes könyvet őriztek."
+    },
+    {
+      "id": 9,
+      "question": "Milyen volt Beatrix és Mátyás király udvara?",
+      "answer": "Beatrix és Mátyás király udvara nagyon különleges volt, mert sok tudós és művész élt ott."
+    },
+    {
+      "id": 10,
+      "question": "Mikor halt meg Aragóniai Beatrix?",
+      "answer": "Aragóniai Beatrix 1508-ban halt meg."
+    }
+  ]
+}

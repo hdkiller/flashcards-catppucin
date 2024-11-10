@@ -1,3 +1,4 @@
+<!-- Previous template code remains unchanged -->
 <template>
   <main class="min-h-screen py-8 px-4 ctp-mocha bg-gradient-to-b from-ctp-base to-ctp-crust">
     <div class="max-w-2xl mx-auto">
@@ -188,8 +189,8 @@ const nextCard = () => {
   if (currentIndex.value < currentFlashcards.value.length - 1) {
     isNavigatingForward.value = true;
     currentIndex.value++;
-  } else {
-    // Navigate to completion view when reaching the end
+  } else if (currentClass.value && currentDeck.value) {
+    // Only navigate if both currentClass and currentDeck are available
     router.push({
       name: 'completion',
       params: {

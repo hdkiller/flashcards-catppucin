@@ -1,14 +1,20 @@
 <template>
   <div
-    class="card min-h-[300px] mx-auto rounded-lg shadow-lg transition-colors duration-300 outline outline-ctp-pink relative"
+    class="card min-h-[360px] mx-auto rounded-lg shadow-lg transition-colors duration-300 outline outline-ctp-pink relative flex"
     :class="{ 'bg-ctp-crust': !isFlipped, 'bg-ctp-mauve/50 text-ctp-text ': isFlipped }"
     @click="toggleCard"
   >
     <div
-      class="card-content h-full flex items-center justify-center text-center p-6"
+      class="card-content flex-1 flex items-center justify-center text-center p-6"
     >
-      <div class="text-3xl markdown-content"
-        :class="{ 'text-ctp-subtext0': !isFlipped, 'text-ctp-text': isFlipped }"
+      <div class="markdown-content w-full"
+        :class="{
+          'text-ctp-subtext0': !isFlipped,
+          'text-ctp-text': isFlipped,
+          'text-4xl': !isFlipped && isShortText,
+          'text-3xl': (!isFlipped && !isShortText) || (isFlipped && !isLongText),
+          'text-2xl': isFlipped && isLongText
+        }"
         v-html="currentContent"
       >
       </div>
@@ -51,11 +57,11 @@
   h1 { @apply text-4xl font-bold mb-4; }
   h2 { @apply text-3xl font-bold mb-3; }
   h3 { @apply text-2xl font-bold mb-2; }
-  p { @apply mb-4; }
-  ul, ol { @apply list-disc list-inside mb-4; }
-  li { @apply mb-1; }
+  p { @apply mb-4 last:mb-0; }
+  ul, ol { @apply list-disc list-inside mb-4 last:mb-0; }
+  li { @apply mb-1 last:mb-0; }
   code { @apply bg-ctp-surface0 px-1 rounded; }
-  pre { @apply bg-ctp-surface0 p-4 rounded mb-4 overflow-x-auto; }
+  pre { @apply bg-ctp-surface0 p-4 rounded mb-4 last:mb-0 overflow-x-auto; }
   blockquote { @apply border-l-4 border-ctp-overlay0 pl-4 italic; }
   a { @apply text-ctp-blue underline; }
   strong { @apply font-bold; }
@@ -92,6 +98,15 @@ export default defineComponent({
     const currentContent = computed(() => {
       const content = isFlipped.value ? props.card.answer : props.card.question;
       return marked(content);
+    });
+
+    // Compute if the text is short (for question) or long (for answer)
+    const isShortText = computed(() => {
+      return props.card.question.length < 50;
+    });
+
+    const isLongText = computed(() => {
+      return props.card.answer.length > 200;
     });
 
     watch(() => props.card, () => {
@@ -139,7 +154,9 @@ export default defineComponent({
       toggleCard,
       ratings,
       rateCard,
-      currentContent
+      currentContent,
+      isShortText,
+      isLongText
     };
   }
 });

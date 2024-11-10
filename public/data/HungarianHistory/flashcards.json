@@ -1,0 +1,84 @@
+{
+  "meta": {
+    "title": "Aranybulla",
+    "description": "Aranybulla történelmi eseményei",
+    "emoji": "💰"
+  },
+  "flashcards": [
+    {
+      "id": 1,
+      "question": "Ki volt Magyarország királya 1222-ben?",
+      "answer": "II. András király volt Magyarország uralkodója ebben az időben."
+    },
+    {
+      "id": 2,
+      "question": "Mi volt az Aranybulla?",
+      "answer": "Az Aranybulla egy nagyon fontos régi dokumentum volt, amit II. András király adott ki 1222-ben. Olyan volt, mint egy szabálykönyv a király és a nemesek között."
+    },
+    {
+      "id": 3, 
+      "question": "Miért volt fontos az Aranybulla?",
+      "answer": "Azért volt fontos, mert védte a nemesek jogait és megmondta, hogy még a királynak is be kell tartania a szabályokat."
+    },
+    {
+      "id": 4,
+      "question": "Hol írták alá az Aranybullát?",
+      "answer": "Az Aranybullát Székesfehérváron írták alá, ami akkor nagyon fontos város volt Magyarországon."
+    },
+    {
+      "id": 5,
+      "question": "Miből készült az Aranybulla pecsétje?",
+      "answer": "Az Aranybulla pecsétje aranyból készült, ezért is hívják Arany-bullának."
+    },
+    {
+      "id": 6,
+      "question": "Milyen jogokat biztosított az Aranybulla a nemeseknek?",
+      "answer": "Az Aranybulla többek között adómentességet, szabad végrendelkezési jogot és személyi szabadságot biztosított a nemeseknek."
+    },
+    {
+      "id": 7,
+      "question": "Hány példányban készült el eredetileg az Aranybulla?",
+      "answer": "Az Aranybulla eredetileg hét példányban készült el, amelyből mára egy sem maradt fenn eredeti formájában."
+    },
+    {
+      "id": 8,
+      "question": "Mi volt az ellenállási záradék az Aranybullában?",
+      "answer": "Az ellenállási záradék lehetővé tette a nemeseknek, hogy törvényesen ellenálljanak a királynak, ha az megszegi az Aranybullában foglaltakat."
+    },
+    {
+      "id": 9,
+      "question": "Kik őrizték az Aranybulla példányait?",
+      "answer": "Az Aranybulla példányait különböző egyházi és világi méltóságok őrizték, köztük a nádor, az esztergomi és a kalocsai érsek."
+    },
+    {
+      "id": 10,
+      "question": "Milyen hatással volt az Aranybulla a magyar jogrendszerre?",
+      "answer": "Az Aranybulla a magyar alkotmányos fejlődés egyik alapköve lett, és évszázadokig meghatározta a magyar jogrendszer alakulását."
+    },
+    {
+      "id": 11,
+      "question": "Milyen külső események befolyásolták az Aranybulla kiadását?",
+      "answer": "A keresztes hadjáratok költségei és a királyi birtokok pazarló adományozása okozta gazdasági válság nagyban hozzájárult az Aranybulla kiadásához."
+    },
+    {
+      "id": 12,
+      "question": "Milyen nyelven írták eredetileg az Aranybullát?",
+      "answer": "Az Aranybullát eredetileg latin nyelven írták, mivel ez volt a hivatalos írásbeliség nyelve a középkori Magyarországon."
+    },
+    {
+      "id": 13,
+      "question": "Mikor újították meg először az Aranybullát?",
+      "answer": "Az Aranybullát először 1231-ben újította meg II. András, amikor néhány pontját módosította és kiegészítette."
+    },
+    {
+      "id": 14,
+      "question": "Mit jelentett a szabad végrendelkezés joga az Aranybullában?",
+      "answer": "A nemesek szabadon örökíthették birtokaikat lányaikra vagy az egyházra, ha nem volt fiú örökösük."
+    },
+    {
+      "id": 15,
+      "question": "Milyen büntetést helyezett kilátásba az Aranybulla megszegése esetén?",
+      "answer": "Az Aranybulla megszegése esetén az esztergomi érsek jogosult volt kiközösíteni a királyt az egyházból."
+    }
+  ]
+}

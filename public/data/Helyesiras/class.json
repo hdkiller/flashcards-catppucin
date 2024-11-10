@@ -1,0 +1,8 @@
+{
+  "title": "Helyesírás",
+  "description": "Helyesírás gyakorlása flashkártyákkal",
+  "emoji": "🖊️",
+  "decks": [
+    "./helyesiras.md"
+  ]
+}

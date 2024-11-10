@@ -83,22 +83,28 @@ function parseMarkdownDeck(content: string): FlashcardDeck {
 
 export async function loadClass(classDir: string): Promise<{ classData: ClassData; decks: FlashcardDeck[] }> {
   try {
-    // Load class.json
-    const classData: ClassData = (await import(`../data/${classDir}/class.json`)).default;
+    // Load class.json using fetch
+    const classResponse = await fetch(`/data/${classDir}/class.json`);
+    if (!classResponse.ok) {
+      throw new Error(`Failed to load class.json for ${classDir}`);
+    }
+    const classData: ClassData = await classResponse.json();
 
     // Load all decks
     const decksPromises = classData.decks.map(async (deckPath) => {
       const isMarkdown = deckPath.endsWith('.md');
-      const fullPath = `../data/${classDir}/${deckPath.replace('./', '')}`;
+      const fullPath = `/data/${classDir}/${deckPath.replace('./', '')}`;
+
+      const response = await fetch(fullPath);
+      if (!response.ok) {
+        throw new Error(`Failed to load deck: ${fullPath}`);
+      }
 
       if (isMarkdown) {
-        // For markdown files, load as text
-        const content = await fetch(new URL(fullPath, import.meta.url)).then(res => res.text());
+        const content = await response.text();
         return parseMarkdownDeck(content);
       } else {
-        // For JSON files
-        const module = await import(/* @vite-ignore */ fullPath);
-        return module.default as FlashcardDeck;
+        return await response.json() as FlashcardDeck;
       }
     });
 

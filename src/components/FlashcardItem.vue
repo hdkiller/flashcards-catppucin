@@ -72,6 +72,7 @@
 <script lang="ts">
 import { defineComponent, ref, watch, onMounted, onUnmounted, computed } from 'vue';
 import { marked } from 'marked';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'FlashcardItem',
@@ -87,6 +88,7 @@ export default defineComponent({
   },
   emits: ['flip', 'rate'],
   setup(props, { emit }) {
+    const router = useRouter();
     const isFlipped = ref(false);
     const ratings = [
       { emoji: '😕', value: 1, label: 'Hard' },
@@ -123,6 +125,11 @@ export default defineComponent({
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Backspace' && !isFlipped.value) {
+        router.push('/');
+        return;
+      }
+
       if (!isFlipped.value) {
         const cardElement = document.querySelector('.card-content') as HTMLElement;
         if (cardElement) {

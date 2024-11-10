@@ -1,39 +1,65 @@
-# flashcards
+# 🎯 Pastel Flashcards
 
-This template should help get you started developing with Vue 3 in Vite.
+A modern, elegant flashcard application designed to make learning more engaging and effective. Built with Vue.js and featuring a clean, minimalist interface that lets you focus on what matters most - learning.
 
-## Recommended IDE Setup
+## ✨ Features
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- 📝 **Markdown Support** - Create rich flashcards using Markdown formatting
+- 🎨 **Clean UI** - Distraction-free interface with smooth animations
+- 📱 **Responsive Design** - Works seamlessly on desktop and mobile devices
+- 📚 **Multiple Subjects** - Organize flashcards by subjects and categories
+- 🔄 **Progress Tracking** - Monitor your learning journey
+- 🌐 **Live Deployment** - Access your flashcards anywhere at [pastel-flashcards.netlify.app](https://pastel-flashcards.netlify.app)
 
-## Type Support for `.vue` Imports in TS
+## 🚀 Quick Start
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+1. Visit [pastel-flashcards.netlify.app](https://pastel-flashcards.netlify.app)
+2. Choose a subject category
+3. Start learning with beautifully designed flashcards!
 
-## Customize configuration
+## 📝 Creating Flashcards
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+Flashcards support Markdown formatting, allowing you to create rich content with:
+- **Bold** and *italic* text
+- Lists and checkboxes
+- Code blocks
+- Images and links
+- And more!
 
-## Project Setup
+## 💻 Development Setup
 
-```sh
+### Prerequisites
+- [Node.js](https://nodejs.org/)
+- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (recommended)
+
+### Installation
+
+```bash
+# Install dependencies
 npm install
-```
 
-### Compile and Hot-Reload for Development
-
-```sh
+# Start development server
 npm run dev
-```
 
-### Type-Check, Compile and Minify for Production
-
-```sh
+# Build for production
 npm run build
-```
 
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
+# Lint project
 npm run lint
 ```
+
+## 🛠 Tech Stack
+
+- Vue 3
+- TypeScript
+- Vite
+- Tailwind CSS
+- ESLint
+
+## 🌟 Contributing
+
+Contributions are welcome! Feel free to submit issues and pull requests.
+
+## 📄 License
+
+MIT License - feel free to use this project for learning and development!

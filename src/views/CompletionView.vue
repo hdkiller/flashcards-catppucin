@@ -25,18 +25,36 @@ const router = useRouter()
 const route = useRoute()
 
 const restartDeck = () => {
-  const { classTitle, deckTitle } = route.params
-  router.push({
-    name: 'deck',
-    params: { classTitle, deckTitle }
-  })
+  // Get the current route parameters
+  const classTitle = route.params.classTitle || route.query.classTitle
+  const deckTitle = route.params.deckTitle || route.query.deckTitle
+
+  if (classTitle && deckTitle) {
+    router.push({
+      name: 'deck',
+      params: {
+        classTitle: classTitle.toString(),
+        deckTitle: deckTitle.toString()
+      }
+    })
+  } else {
+    // Fallback to home if parameters are missing
+    router.push({ name: 'home' })
+  }
 }
 
 const goToClass = () => {
-  const { classTitle } = route.params
-  router.push({
-    name: 'class',
-    params: { classTitle }
-  })
+  // Get the class title from route parameters or query
+  const classTitle = route.params.classTitle || route.query.classTitle
+
+  if (classTitle) {
+    router.push({
+      name: 'class',
+      params: { classTitle: classTitle.toString() }
+    })
+  } else {
+    // Fallback to home if class title is missing
+    router.push({ name: 'home' })
+  }
 }
 </script>

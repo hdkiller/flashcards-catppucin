@@ -15,8 +15,8 @@
               @click="selectClass(classData)"
               class="px-6 py-4 rounded-lg bg-ctp-surface0 hover:bg-ctp-surface1 transition-colors duration-200 group"
             >
-              <span class="text-3xl block mb-2">{{ classData.classData.emoji }}</span>
-              <span class="block text-ctp-text font-medium">{{ classData.classData.title }}</span>
+              <span class="text-6xl block mb-2">{{ classData.classData.emoji }}</span>
+              <span class="block text-ctp-text font-medium text-xl">{{ classData.classData.title }}</span>
               <span class="text-sm text-ctp-subtext0">{{ classData.classData.description }}</span>
             </button>
           </div>
@@ -25,12 +25,7 @@
         <!-- Deck Selection and Navigation -->
         <template v-else>
           <div class="flex items-center justify-center gap-2 mb-4">
-            <button
-              @click="goBack"
-              class="text-ctp-subtext0 hover:text-ctp-text"
-            >
-              ← Vissza
-            </button>
+
             <h2 class="text-2xl text-ctp-subtext0">
               {{ currentClass.classData.title }}
             </h2>
@@ -97,6 +92,16 @@
           :class="index === currentIndex ? 'bg-ctp-blue' : 'bg-ctp-surface0'"
         ></div>
       </div>
+
+      <div v-if="currentDeck || currentClass" class="flex justify-center mt-4 pt-4">
+        <button
+          @click="goBack"
+          class="text-ctp-subtext0 hover:text-ctp-text"
+        >
+          ← Vissza
+        </button>
+      </div>
+
     </div>
   </main>
 </template>
@@ -145,8 +150,13 @@ const loadFromRoute = async () => {
           };
           currentIndex.value = 0;
         }
+      } else {
+        currentDeck.value = null;
       }
     }
+  } else {
+    currentClass.value = null;
+    currentDeck.value = null;
   }
 };
 
@@ -219,18 +229,18 @@ const selectDeck = (deck: FlashcardDeck) => {
 };
 
 const goBack = () => {
-  if (currentDeck.value) {
-    // If we're in a deck, go back to class view
-    router.push({
-      name: 'class',
-      params: { classTitle: currentClass.value?.classData.title || '' }
-    });
-    currentDeck.value = null;
-  } else {
-    // If we're in class view, go back to home
-    router.push({ name: 'home' });
-    currentClass.value = null;
-  }
+  router.push({ name: 'home' });
+
+  // if (route.name === 'deck') {
+  //   // If we're in a deck view, go back to class view
+  //   router.push({
+  //     name: 'class',
+  //     params: { classTitle: currentClass.value?.classData.title || '' }
+  //   });
+  // } else {
+  //   // If we're in class view or any other view, go back to home
+  //   router.push({ name: 'home' });
+  // }
 };
 
 const nextCard = () => {

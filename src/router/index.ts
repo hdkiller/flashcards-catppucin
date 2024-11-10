@@ -21,7 +21,7 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/completion',
+      path: '/completion/:classTitle/:deckTitle',
       name: 'completion',
       component: CompletionView,
       props: true

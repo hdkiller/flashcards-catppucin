@@ -63,6 +63,7 @@
           :card="currentCard"
           class="mb-8"
           @flip="handleFlip"
+          @rate="handleRate"
         />
       </transition>
 
@@ -101,6 +102,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { useRouter } from 'vue-router';
 import FlashcardItem from '../components/FlashcardItem.vue';
 import { loadClass, listClasses, type FlashcardDeck, type ClassData } from '../utils/classLoader';
 
@@ -108,6 +110,9 @@ interface LoadedClass {
   classData: ClassData;
   decks: FlashcardDeck[];
 }
+
+const CARDS_PER_SESSION = 5;
+const router = useRouter();
 
 const classes = ref<LoadedClass[]>([]);
 const currentClass = ref<LoadedClass | null>(null);
@@ -132,6 +137,36 @@ onMounted(async () => {
   }
 });
 
+const getStorageKey = (classTitle: string, deckTitle: string) =>
+  `${classTitle}-${deckTitle}-ratings`;
+
+const loadRatings = (storageKey: string): Record<number, number> => {
+  try {
+    return JSON.parse(localStorage.getItem(storageKey) || '{}');
+  } catch {
+    return {};
+  }
+};
+
+const selectCardsForSession = (deck: FlashcardDeck, classTitle: string): typeof deck.flashcards => {
+  const storageKey = getStorageKey(classTitle, deck.meta.title);
+  const ratings = loadRatings(storageKey);
+  // Sort cards based on their ratings
+  const sortedCards = [...deck.flashcards].sort((a, b) => {
+    const ratingA = ratings[a.id] || 0; // 0 for unrated cards
+    const ratingB = ratings[b.id] || 0;
+
+    // Prioritize unrated cards
+    if (ratingA === 0 && ratingB !== 0) return -1;
+    if (ratingB === 0 && ratingA !== 0) return 1;
+
+    // Then sort by rating (lower ratings first)
+    return ratingA - ratingB;
+  });
+  // Take first CARDS_PER_SESSION cards
+  return sortedCards.slice(0, CARDS_PER_SESSION);
+};
+
 const selectClass = (classData: LoadedClass) => {
   currentClass.value = classData;
   currentDeck.value = null;
@@ -139,7 +174,13 @@ const selectClass = (classData: LoadedClass) => {
 };
 
 const selectDeck = (deck: FlashcardDeck) => {
-  currentDeck.value = deck;
+  if (!currentClass.value) return;
+
+  // Create a new deck object with filtered cards
+  currentDeck.value = {
+    ...deck,
+    flashcards: selectCardsForSession(deck, currentClass.value.classData.title)
+  };
   currentIndex.value = 0;
 };
 
@@ -147,6 +188,15 @@ const nextCard = () => {
   if (currentIndex.value < currentFlashcards.value.length - 1) {
     isNavigatingForward.value = true;
     currentIndex.value++;
+  } else {
+    // Navigate to completion view when reaching the end
+    router.push({
+      name: 'completion',
+      params: {
+        classTitle: currentClass.value.classData.title,
+        deckTitle: currentDeck.value.meta.title
+      }
+    });
   }
 };
 
@@ -163,7 +213,6 @@ const handleKeyPress = (event: KeyboardEvent) => {
   switch (event.key) {
     case ' ':
     case 'Spacebar':
-    case 'Enter':
       event.preventDefault();
       const cardElement = document.querySelector('.card-content') as HTMLElement;
       if (cardElement) {
@@ -171,9 +220,11 @@ const handleKeyPress = (event: KeyboardEvent) => {
       }
       break;
     case 'ArrowLeft':
+    case 'Backspace':
       event.preventDefault();
       previousCard();
       break;
+    case 'Enter':
     case 'ArrowRight':
       event.preventDefault();
       nextCard();
@@ -184,6 +235,22 @@ const handleKeyPress = (event: KeyboardEvent) => {
 const handleFlip = () => {
   // This function can be used to handle any additional logic when a card is flipped
   // For now it's just a placeholder for future functionality
+};
+
+const handleRate = ({ cardId, rating }: { cardId: number, rating: number }) => {
+  // Store the rating in localStorage
+  if (currentClass.value && currentDeck.value) {
+    const storageKey = getStorageKey(
+      currentClass.value.classData.title,
+      currentDeck.value.meta.title
+    );
+    const storedRatings = loadRatings(storageKey);
+    storedRatings[cardId] = rating;
+    localStorage.setItem(storageKey, JSON.stringify(storedRatings));
+  }
+
+  // Advance to the next card
+  nextCard();
 };
 
 onMounted(() => {

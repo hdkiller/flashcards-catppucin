@@ -7,11 +7,11 @@
     <div
       class="card-content h-full flex items-center justify-center text-center p-6"
     >
-      <p class="text-4xl"
+      <div class="text-3xl markdown-content"
         :class="{ 'text-ctp-subtext0': !isFlipped, 'text-ctp-text': isFlipped }"
+        v-html="currentContent"
       >
-        {{ isFlipped ? card.answer : card.question }}
-      </p>
+      </div>
     </div>
 
     <!-- Rating buttons that appear when card is flipped -->
@@ -33,8 +33,39 @@
   </div>
 </template>
 
+<style scoped>
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.shake {
+  animation: shake 0.5s;
+}
+
+:deep(.markdown-content) {
+  /* Basic markdown styles */
+  h1 { @apply text-4xl font-bold mb-4; }
+  h2 { @apply text-3xl font-bold mb-3; }
+  h3 { @apply text-2xl font-bold mb-2; }
+  p { @apply mb-4; }
+  ul, ol { @apply list-disc list-inside mb-4; }
+  li { @apply mb-1; }
+  code { @apply bg-ctp-surface0 px-1 rounded; }
+  pre { @apply bg-ctp-surface0 p-4 rounded mb-4 overflow-x-auto; }
+  blockquote { @apply border-l-4 border-ctp-overlay0 pl-4 italic; }
+  a { @apply text-ctp-blue underline; }
+  strong { @apply font-bold; }
+  em { @apply italic; }
+}
+</style>
+
 <script lang="ts">
-import { defineComponent, ref, watch, onMounted, onUnmounted } from 'vue';
+import { defineComponent, ref, watch, onMounted, onUnmounted, computed } from 'vue';
+import { marked } from 'marked';
 
 export default defineComponent({
   name: 'FlashcardItem',
@@ -58,6 +89,11 @@ export default defineComponent({
       { emoji: '😎', value: 4, label: 'Nailed it' }
     ];
 
+    const currentContent = computed(() => {
+      const content = isFlipped.value ? props.card.answer : props.card.question;
+      return marked(content);
+    });
+
     watch(() => props.card, () => {
       isFlipped.value = false;
     }, { deep: true });
@@ -72,8 +108,16 @@ export default defineComponent({
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (!isFlipped.value) return;
-
+      if (!isFlipped.value) {
+        const cardElement = document.querySelector('.card-content') as HTMLElement;
+        if (cardElement) {
+          cardElement.classList.add('shake');
+          setTimeout(() => {
+            cardElement.classList.remove('shake');
+          }, 500);
+        }
+        return;
+      }
       const key = event.key;
       if (['1', '2', '3', '4'].includes(key)) {
         event.preventDefault();
@@ -94,7 +138,8 @@ export default defineComponent({
       isFlipped,
       toggleCard,
       ratings,
-      rateCard
+      rateCard,
+      currentContent
     };
   }
 });

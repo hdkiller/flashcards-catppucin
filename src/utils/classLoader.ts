@@ -12,16 +12,16 @@ interface Flashcard {
     answer: string;
 }
 
-interface DeckData {
+export interface FlashcardDeck {
     meta: Meta;
     flashcards: Flashcard[];
 }
 
-interface ClassData {
+export interface ClassData {
     decks: string[];
 }
 
-function parseMarkdownDeck(content: string): DeckData {
+function parseMarkdownDeck(content: string): FlashcardDeck {
     // Split the content into frontmatter and cards
     const [, frontmatter, ...rest] = content.split('---\n');
     // Parse frontmatter
@@ -74,7 +74,7 @@ function parseMarkdownDeck(content: string): DeckData {
     };
 }
 
-export async function loadClass(classDir: string): Promise<{ classData: ClassData; decks: DeckData[] }> {
+export async function loadClass(classDir: string): Promise<{ classData: ClassData; decks: FlashcardDeck[] }> {
     try {
         // First, load the class definition using fetch
         const classResponse = await fetch(`/data/${classDir}/class.json`);
@@ -93,7 +93,7 @@ export async function loadClass(classDir: string): Promise<{ classData: ClassDat
                 const content = await response.text();
                 return parseMarkdownDeck(content);
             } else {
-                return await response.json() as DeckData;
+                return await response.json() as FlashcardDeck;
             }
         });
 

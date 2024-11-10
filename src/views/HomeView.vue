@@ -117,7 +117,13 @@ interface LoadedClass {
   decks: FlashcardDeck[];
 }
 
-const CARDS_PER_SESSION = 5;
+interface CardHistory {
+  rating: number;
+  lastReviewed: number;
+}
+
+const CARDS_PER_SESSION = 10; // Increased from 5 to 10
+const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000;
 const router = useRouter();
 const route = useRoute();
 
@@ -180,9 +186,9 @@ onMounted(async () => {
 });
 
 const getStorageKey = (classTitle: string, deckTitle: string) =>
-  `${classTitle}-${deckTitle}-ratings`;
+  `${classTitle}-${deckTitle}-history`;
 
-const loadRatings = (storageKey: string): Record<number, number> => {
+const loadCardHistory = (storageKey: string): Record<number, CardHistory> => {
   try {
     return JSON.parse(localStorage.getItem(storageKey) || '{}');
   } catch {
@@ -190,23 +196,58 @@ const loadRatings = (storageKey: string): Record<number, number> => {
   }
 };
 
+// Fisher-Yates shuffle algorithm
+const shuffleArray = <T>(array: T[]): T[] => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
+// Calculate card priority based on spaced repetition algorithm
+const calculateCardPriority = (cardHistory: CardHistory | undefined): number => {
+  if (!cardHistory) return Infinity; // Highest priority for new cards
+
+  const { rating, lastReviewed } = cardHistory;
+  const daysSinceReview = (Date.now() - lastReviewed) / MILLISECONDS_PER_DAY;
+
+  // Calculate interval based on rating (1-5)
+  // Lower ratings = shorter intervals
+  const interval = Math.pow(2, rating - 1); // 1 day, 2 days, 4 days, 8 days, 16 days
+
+  // Priority increases as we get closer to or pass the due date
+  return (daysSinceReview / interval);
+};
+
 const selectCardsForSession = (deck: FlashcardDeck, classTitle: string): typeof deck.flashcards => {
   const storageKey = getStorageKey(classTitle, deck.meta.title);
-  const ratings = loadRatings(storageKey);
-  // Sort cards based on their ratings
-  const sortedCards = [...deck.flashcards].sort((a, b) => {
-    const ratingA = ratings[a.id] || 0; // 0 for unrated cards
-    const ratingB = ratings[b.id] || 0;
+  const cardHistory = loadCardHistory(storageKey);
 
-    // Prioritize unrated cards
-    if (ratingA === 0 && ratingB !== 0) return -1;
-    if (ratingB === 0 && ratingA !== 0) return 1;
+  // Calculate priority for each card
+  const cardsWithPriority = deck.flashcards.map(card => ({
+    card,
+    priority: calculateCardPriority(cardHistory[card.id])
+  }));
 
-    // Then sort by rating (lower ratings first)
-    return ratingA - ratingB;
+  // Group cards by similar priority (rounded to 1 decimal place)
+  const priorityGroups: { [key: string]: typeof deck.flashcards } = {};
+  cardsWithPriority.forEach(({ card, priority }) => {
+    const roundedPriority = Math.round(priority * 10) / 10;
+    if (!priorityGroups[roundedPriority]) {
+      priorityGroups[roundedPriority] = [];
+    }
+    priorityGroups[roundedPriority].push(card);
   });
-  // Take first CARDS_PER_SESSION cards
-  return sortedCards.slice(0, CARDS_PER_SESSION);
+
+  // Shuffle each priority group and combine them
+  const sortedAndShuffledCards = Object.entries(priorityGroups)
+    .sort(([priority1], [priority2]) => Number(priority2) - Number(priority1)) // Sort by priority (highest first)
+    .flatMap(([, cards]) => shuffleArray(cards));
+
+  // Take the first CARDS_PER_SESSION cards
+  return sortedAndShuffledCards.slice(0, CARDS_PER_SESSION);
 };
 
 const selectClass = (classData: LoadedClass) => {
@@ -230,17 +271,6 @@ const selectDeck = (deck: FlashcardDeck) => {
 
 const goBack = () => {
   router.push({ name: 'home' });
-
-  // if (route.name === 'deck') {
-  //   // If we're in a deck view, go back to class view
-  //   router.push({
-  //     name: 'class',
-  //     params: { classTitle: currentClass.value?.classData.title || '' }
-  //   });
-  // } else {
-  //   // If we're in class view or any other view, go back to home
-  //   router.push({ name: 'home' });
-  // }
 };
 
 const nextCard = () => {
@@ -300,15 +330,18 @@ const handleFlip = () => {
 };
 
 const handleRate = ({ cardId, rating }: { cardId: number, rating: number }) => {
-  // Store the rating in localStorage
+  // Store the rating and timestamp in localStorage
   if (currentClass.value && currentDeck.value) {
     const storageKey = getStorageKey(
       currentClass.value.classData.title,
       currentDeck.value.meta.title
     );
-    const storedRatings = loadRatings(storageKey);
-    storedRatings[cardId] = rating;
-    localStorage.setItem(storageKey, JSON.stringify(storedRatings));
+    const storedHistory = loadCardHistory(storageKey);
+    storedHistory[cardId] = {
+      rating,
+      lastReviewed: Date.now()
+    };
+    localStorage.setItem(storageKey, JSON.stringify(storedHistory));
   }
 
   // Advance to the next card

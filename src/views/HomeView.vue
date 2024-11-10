@@ -13,7 +13,7 @@
               v-for="classData in classes"
               :key="classData.classData.title"
               @click="selectClass(classData)"
-              class="px-6 py-4 rounded-lg bg-ctp-surface0 hover:bg-ctp-surface1 transition-colors duration-200 group"
+              class="px-6 py-4 rounded-lg bg-ctp-surface0 hover:bg-ctp-surface1 transition-colors duration-200 group w-full"
             >
               <span class="text-6xl block mb-2">{{ classData.classData.emoji }}</span>
               <span class="block text-ctp-text font-medium text-xl">{{ classData.classData.title }}</span>
@@ -35,18 +35,20 @@
             Kártya {{ currentIndex + 1 }} / {{ currentFlashcards.length }}
           </p>
 
-          <div v-if="!currentDeck" class="flex justify-center gap-4 mb-4">
-            <button
-              v-for="deck in currentClass.decks"
-              :key="deck.meta.title"
-              @click="selectDeck(deck)"
-              class="text-3xl hover:scale-110 transition-transform duration-200 relative group"
-            >
-              {{ deck.meta.emoji }}
-              <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1 bg-ctp-surface0 text-ctp-text text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
-                {{ deck.meta.description }}
-              </div>
-            </button>
+          <div v-if="!currentDeck" class="mb-8">
+            <h2 class="text-2xl mb-4 text-ctp-subtext0">Válassz paklit</h2>
+            <div class="flex justify-center gap-4 flex-wrap">
+              <button
+                v-for="deck in currentClass.decks"
+                :key="deck.meta.title"
+                @click="selectDeck(deck)"
+                class="px-6 py-4 rounded-lg bg-ctp-surface0 hover:bg-ctp-surface1 transition-colors duration-200 group w-full"
+              >
+                <span class="text-6xl block mb-2">{{ deck.meta.emoji }}</span>
+                <span class="block text-ctp-text font-medium text-xl">{{ deck.meta.title }}</span>
+                <span class="text-sm text-ctp-subtext0">{{ deck.meta.description }}</span>
+              </button>
+            </div>
           </div>
         </template>
       </header>

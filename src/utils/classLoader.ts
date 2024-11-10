@@ -18,6 +18,9 @@ export interface FlashcardDeck {
 }
 
 export interface ClassData {
+    title: string;
+    description: string;
+    emoji: string;
     decks: string[];
 }
 

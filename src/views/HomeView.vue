@@ -26,7 +26,7 @@
         <template v-else>
           <div class="flex items-center justify-center gap-2 mb-4">
             <button
-              @click="currentClass = null"
+              @click="goBack"
               class="text-ctp-subtext0 hover:text-ctp-text"
             >
               ← Vissza
@@ -102,8 +102,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import FlashcardItem from '../components/FlashcardItem.vue';
 import { loadClass, listClasses, type FlashcardDeck, type ClassData } from '../utils/classLoader';
 
@@ -114,6 +114,7 @@ interface LoadedClass {
 
 const CARDS_PER_SESSION = 5;
 const router = useRouter();
+const route = useRoute();
 
 const classes = ref<LoadedClass[]>([]);
 const currentClass = ref<LoadedClass | null>(null);
@@ -125,6 +126,35 @@ const currentFlashcards = computed(() => currentDeck.value?.flashcards || []);
 const currentCard = computed(() => currentFlashcards.value[currentIndex.value]);
 const transitionName = computed(() => isNavigatingForward.value ? 'slide-forward' : 'slide-backward');
 
+// Load class and deck based on route parameters
+const loadFromRoute = async () => {
+  const classTitle = route.params.classTitle as string;
+  const deckTitle = route.params.deckTitle as string;
+
+  if (classTitle && classes.value.length > 0) {
+    const foundClass = classes.value.find(c => c.classData.title === classTitle);
+    if (foundClass) {
+      currentClass.value = foundClass;
+
+      if (deckTitle) {
+        const foundDeck = foundClass.decks.find(d => d.meta.title === deckTitle);
+        if (foundDeck) {
+          currentDeck.value = {
+            ...foundDeck,
+            flashcards: selectCardsForSession(foundDeck, classTitle)
+          };
+          currentIndex.value = 0;
+        }
+      }
+    }
+  }
+};
+
+// Watch for route changes
+watch(() => route.params, async () => {
+  await loadFromRoute();
+}, { immediate: true });
+
 // Load available classes on mount
 onMounted(async () => {
   try {
@@ -133,6 +163,7 @@ onMounted(async () => {
       availableClasses.map(classDir => loadClass(classDir))
     );
     classes.value = loadedClasses;
+    await loadFromRoute();
   } catch (error) {
     console.error('Error loading classes:', error);
   }
@@ -169,20 +200,37 @@ const selectCardsForSession = (deck: FlashcardDeck, classTitle: string): typeof 
 };
 
 const selectClass = (classData: LoadedClass) => {
-  currentClass.value = classData;
-  currentDeck.value = null;
-  currentIndex.value = 0;
+  router.push({
+    name: 'class',
+    params: { classTitle: classData.classData.title }
+  });
 };
 
 const selectDeck = (deck: FlashcardDeck) => {
   if (!currentClass.value) return;
 
-  // Create a new deck object with filtered cards
-  currentDeck.value = {
-    ...deck,
-    flashcards: selectCardsForSession(deck, currentClass.value.classData.title)
-  };
-  currentIndex.value = 0;
+  router.push({
+    name: 'deck',
+    params: {
+      classTitle: currentClass.value.classData.title,
+      deckTitle: deck.meta.title
+    }
+  });
+};
+
+const goBack = () => {
+  if (currentDeck.value) {
+    // If we're in a deck, go back to class view
+    router.push({
+      name: 'class',
+      params: { classTitle: currentClass.value?.classData.title || '' }
+    });
+    currentDeck.value = null;
+  } else {
+    // If we're in class view, go back to home
+    router.push({ name: 'home' });
+    currentClass.value = null;
+  }
 };
 
 const nextCard = () => {
@@ -190,7 +238,6 @@ const nextCard = () => {
     isNavigatingForward.value = true;
     currentIndex.value++;
   } else if (currentClass.value && currentDeck.value) {
-    // Only navigate if both currentClass and currentDeck are available
     router.push({
       name: 'completion',
       params: {
@@ -229,6 +276,10 @@ const handleKeyPress = (event: KeyboardEvent) => {
     case 'ArrowRight':
       event.preventDefault();
       nextCard();
+      break;
+    case 'Escape':
+      event.preventDefault();
+      goBack();
       break;
   }
 };

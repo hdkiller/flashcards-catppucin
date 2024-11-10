@@ -125,11 +125,6 @@ export default defineComponent({
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Backspace' && !isFlipped.value) {
-        router.push('/');
-        return;
-      }
-
       if (!isFlipped.value) {
         const cardElement = document.querySelector('.card-content') as HTMLElement;
         if (cardElement) {

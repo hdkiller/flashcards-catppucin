@@ -11,6 +11,16 @@ const router = createRouter({
       component: HomeView
     },
     {
+      path: '/class/:classTitle',
+      name: 'class',
+      component: HomeView
+    },
+    {
+      path: '/class/:classTitle/deck/:deckTitle',
+      name: 'deck',
+      component: HomeView
+    },
+    {
       path: '/completion',
       name: 'completion',
       component: CompletionView,

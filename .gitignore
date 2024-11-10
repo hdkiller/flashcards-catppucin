@@ -22,11 +22,16 @@ dist
 dist-ssr
 *.local
 
-# Source Maps
+# Source Maps and Generated Files
 *.map
 .sourcemaps
 *.js.map
 *.css.map
+# Vue generated files
+*.vue.js
+*.vue.js.map
+.vue-temp
+.nuxt
 
 # Environment
 .env
